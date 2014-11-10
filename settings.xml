@@ -1,0 +1,62 @@
+<settings>
+	<patientSets>
+		<set name='train' start='0' end='100'/>
+		<set name='validate' start='100' end='200'/>
+	</patientSets>
+
+	<vocab src='vocab.pk' shelf='wordShelf'/>
+	<anchors src='anchors.xml' loc='concepts' shelf='anchorShelf'/>
+	<stopwords src='stopwords.pk'/>
+	<patients src='visitIDs' shelf='visitShelf'/>
+    <logfile path='log.txt'/>
+
+	<dataTypes>
+		<datum type='text' heirarchy='' prefix='' realtime='true'>
+			<field name='MDcomments' path='.'/>
+			<field name='ChiefComplaint' path='.'/>
+            <field name='TriageAssessment' path='.'/>
+		</datum>
+
+		<datum type='age' heirarchy='' prefix='age_' realtime='true'>
+			<field name='Age' path='.'/>
+		</datum>
+
+		<datum type='sex' heirarchy='' prefix='sex_' realtime='true'>
+			<field name='Sex' path='.'/>
+		</datum>
+
+        <datum type='code' heirarchy='codeStruct.pk' prefix='code_' dictionary='codeDict.pk' realtime='false'>
+            <field name='Diagnosis' path='D_code' display='D_name'/>
+            <field name='Diagnosis' path='D2_code' display='D2_name'/>
+            <field name='Diagnosis' path='D3_code' display='D3_name'/>
+            <field name='Diagnosis' path='D4_code' display='D4_name'/>
+            <field name='Diagnosis' path='D5_code' display='D5_name'/>
+            <field name='Diagnosis' path='D6_code' display='D6_name'/>
+            <field name='Diagnosis' path='D7_code' display='D7_name'/>
+            <field name='Diagnosis' path='D8_code' display='D8_name'/>
+            <field name='Diagnosis' path='D9_code' display='D9_name'/>
+        </datum>
+
+	</dataTypes>
+
+	<displaySettings>
+		<patientSummary>
+			<displayFields>
+				<field name='Age'/>
+				<field name='Sex'/>
+				<field name='ChiefComplaint'/>
+			</displayFields>
+		</patientSummary>
+		<detailedDisplay>
+			<displayFields>
+				<field name='ChiefComplaint' path='.'/>
+				<field name='TriageAssessment' path='.'/>
+				<field name='MDcomments' path='.'/>
+                <field name='Diagnosis' path="D_name"/>
+			</displayFields>
+		</detailedDisplay>
+	</displaySettings>
+</settings>
+
+
+

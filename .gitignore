@@ -1,0 +1,9 @@
+*.pyc
+vocab.pk
+visitIDs
+visitShelf
+wordShelf
+log.txt
+concepts/*
+patientChunk.*
+patients.xml
