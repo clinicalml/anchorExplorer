@@ -162,7 +162,7 @@ class AnchorDisplay:
         self.prefixes =  [field.attrib['prefix'] for field in root.settings.findall('./dataTypes/datum')]
 
         f = self.frames['suggest'] = Frame(self.anchorSuggestions)
-        self.anchorSuggestions.add(f, text='Associations')
+        self.anchorSuggestions.add(f, text='Suggestions')
         self.trees['suggest'] = t = Treeview(f, columns=['repr', 'weight'], displaycolumns=[])
         t.pack(fill=BOTH, expand=1)
 
@@ -344,7 +344,7 @@ class PatientDetailDisplay:
         self.parent = parent
         self.root = root
         self.patientDetails = Text(parent, wrap=WORD)
-        self.patientDetails.pack(side=TOP, fill=BOTH, expand=1)
+        self.patientDetails.pack(side=TOP, fill=X, expand=0)
         self.settings = root.settings
         self.displayFields = [field.attrib['name'] for field in root.settings.findall('./displaySettings/detailedDisplay/displayFields/field')]
         self.dataTypes = [field.attrib['type'] for field in root.settings.findall('./dataTypes/datum')]
@@ -444,12 +444,13 @@ class PatientListDisplay:
         #bottom listbox -- patient representation
         self.parent = parent
         self.root = root
-        self.patientList = Treeview(parent, columns=['pid'], displaycolumns=[], height=10)
+        self.patientList = Treeview(parent, columns=['pid'], displaycolumns=[])
+        self.patientList.pack(side=TOP, fill=BOTH, expand=1)
+
         scrollbar = Scrollbar(self.patientList)
         scrollbar.pack(side=RIGHT,fill=Y)
         self.patientList.configure(yscroll=scrollbar.set)
         scrollbar.config(command=self.patientList.yview)
-        self.patientList.pack(side=TOP, fill=BOTH, expand=1)
         parent.add(self.patientList)
         self.summaryFields = [field.attrib['name'] for field in root.settings.findall('./displaySettings/patientSummary/displayFields/field')]
 
@@ -622,7 +623,6 @@ class PatientListDisplay:
             self.patientList.item(p, tags=['green'])
             id = self.patientList.item(p)['values'][0]
             self.root.backend.getActiveConcept().tag_patient(id, 1)
-            print 'tagging', id
         self.root.showStats()
 
     def negTagPatient(self, event):

@@ -35,10 +35,10 @@ def readSettings(filename):
 class Display:
     def __init__(self,parent, settings, loadfile=None):
         self.parent = parent
-        self.currentConcept='all'
+        self.currentConcept='dummy-concept'
         self.recentPatients = {}
         self.displayMode=StringVar()
-        self.displayMode.set('filter')
+        self.displayMode.set('sort')
         self.nProcs = 2
         self.settings = readSettings(settings)
         self.logfile = file(self.settings.find('logfile').attrib['path'], 'a')
@@ -97,6 +97,7 @@ class Display:
         self.patientDetailDisplay = PatientDetailDisplay(m2, self)
         self.patientListDisplay = PatientListDisplay(m2, self)
         self.backend = Backend(self, loadfile)
+        self.refresh()
 
 
 

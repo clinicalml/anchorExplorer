@@ -1,0 +1,48 @@
+<settings>
+	<patientSets>
+		<set name='train' start='0' end='100'/>
+		<set name='validate' start='100' end='200'/>
+	</patientSets>
+
+	<vocab src='vocab.pk' shelf='wordShelf'/>
+	<anchors src='anchors.xml' loc='concepts' shelf='anchorShelf'/>
+	<stopwords src='stopwords.pk'/>
+	<patients src='visitIDs' shelf='visitShelf'/>
+    <logfile path='log.txt'/>
+
+	<dataTypes>
+		<datum type='text' heirarchy='' prefix='' realtime='true'>
+			<field name='MDcomments' path='.'/>
+			<field name='ChiefComplaint' path='.'/>
+            <field name='TriageAssessment' path='.'/>
+		</datum>
+
+		<datum type='age' heirarchy='' prefix='age_' realtime='true'>
+			<field name='Age' path='.'/>
+		</datum>
+
+		<datum type='sex' heirarchy='' prefix='sex_' realtime='true'>
+			<field name='Sex' path='.'/>
+		</datum>
+	</dataTypes>
+
+	<displaySettings>
+		<patientSummary>
+			<displayFields>
+				<field name='Age'/>
+				<field name='Sex'/>
+				<field name='ChiefComplaint'/>
+			</displayFields>
+		</patientSummary>
+		<detailedDisplay>
+			<displayFields>
+				<field name='ChiefComplaint' path='.'/>
+				<field name='TriageAssessment' path='.'/>
+				<field name='MDcomments' path='.'/>
+			</displayFields>
+		</detailedDisplay>
+	</displaySettings>
+</settings>
+
+
+

@@ -692,15 +692,10 @@ class Backend:
             self.patients[v] = pat
             sparse_X.append(pat['sparse_X'])
     
+        print self.patients.keys()
         self.sparse_X = sparse.vstack(sparse_X, 'lil')
 
         self.train_patient_ids = visit_ids
-
-
-        f = file('patientChunk.'+str(start)+'.'+str(end)+'.pk', 'w')
-        pickle.dump(self.patients.items(), f)
-        pickle.dump(self.sparse_X, f)
-        f.close()
 
 
         self.patientList = [self.patients[v] for v in self.visitIDs]
