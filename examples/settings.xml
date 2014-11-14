@@ -1,7 +1,7 @@
 <settings>
 	<patientSets>
-		<set name='train' start='0' end='100'/>
-		<set name='validate' start='100' end='200'/>
+		<set name='train' start='0' end='500'/>
+		<set name='validate' start='500' end='1000'/>
 	</patientSets>
 
 	<vocab src='vocab.pk' shelf='wordShelf'/>

@@ -24,6 +24,7 @@ def remove_prefix(w):
 	else:
 		return w
 
+random.seed(2014)
 words = file('/usr/share/dict/words').read().splitlines()
 random.shuffle(words)
 words = words[:500]

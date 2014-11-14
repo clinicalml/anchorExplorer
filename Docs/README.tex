@@ -12,19 +12,19 @@
 \maketitle{}
  
 
-Hi! This document accompanies the initial release of the anchor interface described in: ``Using Anchors to Estimate Clinical State without Labeled Data'' by Y. Halpern, Y.D. Choi, S. Horng, D. Sontag. To appear in the American Medical Informatics Association (AMIA) Annual Symposium, Nov. 2014. It is probably woefully incomplete, please direct questions/comments to Yoni Halpern: halpern@cs.nyu.edu. 
-
-{\bf I'm happy to work with you to get this up and running on your dataset of interest!}
+Hi! This document accompanies the initial release of the anchor interface described in: ``Using Anchors to Estimate Clinical State without Labeled Data'' by Y. Halpern, Y.D. Choi, S. Horng, D. Sontag. To appear in the American Medical Informatics Association (AMIA) Annual Symposium, Nov. 2014. 
 
 
+\section{Contact Information}
+Please direct questions to Yoni Halpern: halpern@cs.nyu.edu
 
 \section{Quick Start}
 
 \subsection{Installation}
-Pull the github repository for AnchorExplorer with the following command:
+Clone the github repository for AnchorExplorer with the following command:
 
 \begin{verbatim}
-$ git clone ..
+$ git clone https://github.com/yhalpern/anchorExplorer.git
 $ cd anchorExplorer
 \end{verbatim}
 
@@ -45,6 +45,8 @@ Required python packages are listed a file, requirements.txt and can be installe
 $ pip install -r requirements.txt
 \end{verbatim}
 
+If you have trouble with Tkinter and ttk, try installing the ActiveState community edition of Python \url{http://www.activestate.com/activepython/}.
+
 \subsection{Data}
 To start, you need to have patient records in xml format. 
 However, if you want to test that you can get things up and running with dummy data you can use the following command to generate 1000 properly formatted ``random'' patient records and store them in patients.xml.
@@ -53,11 +55,8 @@ However, if you want to test that you can get things up and running with dummy d
 $ python generate_patients.py 1000 > patients.xml
 \end{verbatim}
 
-A more realistic dataset can be created if you have access to the MIMIC-II clinical notes.
+%A more realistic dataset can be created if you have access to the MIMIC-II clinical notes. 
 
-\begin{verbatim}
-$ python generate_from_mimic.py 1000 > patients.xml
-\end{verbatim}
 
 \subsection{Settings}
 An example settings file is provided in the examples/ directory. To customize this file for your own data, see section~\ref{sec:custom_settings}.
@@ -71,7 +70,12 @@ $ python preprocess_patients.py 1000 patients.xml examples/settings.xml
 \end{verbatim}
 
 This script does some simple negation detection, bigram detection and stopword removal.
-If you wish to use your own custom language processing pipeline, see section~\ref{sec:language_processing}.
+If you wish to use your own custom language processing pipeline, see section~\ref{sec:custom_language_processing}.
+
+\subsection{Create an anchors directory}
+\begin{verbatim}
+$ mkdir anchors
+\end{verbatim}
 
 \subsection{Run the interface}
 To run the interface using the example settings file:
@@ -81,14 +85,99 @@ $ python gui.py examples/settings.xml
 \end{verbatim}
 
 \subsection{Exploring the data}
+\begin{figure}[tb]
+    \begin{center}
+        \includegraphics[scale=0.40]{screen_2_annotated.png}
+        \includegraphics[scale=0.25]{screen_3.png}
+    \end{center}
+    \caption{\label{fig:first_activation} (Left) Screenshot when the interface is first activated. Panes are annotated in red and each one is explained in detail in Section~\ref{sec:anatomy}. (Right) Viewing a patient in more detail. Random words are inserted for patient text here.}
+\end{figure}
+
+You can explore the data on the patient visit level with the patient summary display (H) and detailed display (F). Selecting a patient in the summary display shows the patient's record in more detail above it. In this simple example, we are only showing three text fields, but more data can be shown here.
+
+\subsection{Create a new cohort}
+Pushing the ``new variable'' button (below A) will pop up a dialog to create a new cohort variable. You will be prompted to provide a name.
+
+\subsection{Adding an anchor}
+
+Choose a word that appears in the patient data (e.g. for the randomly generated data, try ``bioluminescence'') and enter it in the text input box (D). 
+
+\subsection{Filtering the data}
+
+Choose to filter for patients that have the anchor or view only patients that do not have the anchor by using the radio buttons to change the filters (G).
 
 \subsection{Learning a model}
+Until now, you have just been exploring the patient data and applying filters, but no learning has taken place. Now try pushing the ``Learn'' button (E). After a few seconds, your patients should now be ranked in order of likelihood of belonging to the cohort and suggestions for additional anchors will appear in the suggestions pane (C).
 
-\subsection{Customizing the settings.xml file}
-\label{sec:custom_settings}
-The settings.xml file makes it easy\footnote{maybe} to customize the interface for your particular dataset. An example settings.xml file is provided along with the interface code. Most of it can be left as is. The most important parts to customize are the {\tt dataTypes} and {\tt displaySettings} sections.
+\subsection{Saving state}
+Try closing the window and opening it up again. Your cohorts and anchors should be preserved.
 
-\subsubsection{patientSets}
+\section{Anatomy of the interface}
+\label{sec:anatomy}
+\subsection{Cohort Selection Menu (A)}
+Allows you to select cohorts, and create new ones.
+Some commands:
+\begin{itemize}
+\item New variable button to create a new cohort
+\item `-' delete cohort
+\item `r' rename cohort
+\end{itemize}
+
+
+\subsection{Anchor Display (B)}
+Displays the current anchors for the selected topic.
+Commands:
+\begin{itemize}
+\item Enter text into text box and push enter to add a new anchor
+\item `-' delete selected anchor
+\item Anchors can also be added using the anchor suggestion pane (Top Right)
+\end{itemize}
+
+\subsection{Anchor Suggestion Pane (C)}
+Displays suggestions for anchors and allows for navigation and adding of structured anchors.
+Commands:
+\begin{itemize}
+\item ``+'' to add selected anchor suggestion
+%\item ``suggest'' pane gives ranked anchor suggestions.
+%\item other panes give an interface to navigate structured data types (e.g. code, med, etc)
+\end{itemize}
+{\bf Important:} The anchor suggestions are not necessarily all good - choosing anchors requires judgment of whether to accept or reject the automated suggestions. They are  meant to trigger associations, not  tell you what makes a good anchor or not!
+
+\subsection{Anchor Input Box (D)}
+Type anchors in here, push enter to apply them. You will need to push learn to relearn the model after adding an anchor.
+
+\subsection{Learn Button (E)}
+Learns a model using the currently selected anchors.
+
+\subsection{Detailed Patient Display (F)}
+Detailed display of the patient selected in Patient List (Bottom Right). Anchors are highlighted red. Structured data types can be clicked to navigate directly to the relevant part of the hierarchy (displayed in Anchor Suggestion Pane).
+\subsection{Patient Filters (G)}
+Possible options here:
+\begin{itemize}
+\item view not anchored: patients that do not have an anchor.
+\item view all anchored: all patients that have an anchor.
+\item view selected anchor: view patients that have the selected anchor (selected in pane B).
+\item view recent anchor: view patients added by the most recent anchor.
+\end{itemize}
+
+\subsection{Patient List (H)}
+List of patients with summary information. 
+These patients can be filtered using the radio buttons on the left (e.g. view all anchored, view not anchored, etc).
+After the concept has been ``learned'' using the Learn Button, this list will be ranked in order of how highly the patient fits the currently selected concept.
+
+Usage:
+\begin{itemize}
+\item arrow keys to navigate
+\item ``+'' mark patient as a positive example
+\item ``-'' mark patient as a negative example
+\item ``0'' remove patient markings
+\end{itemize}
+
+
+\section{Customizations}
+This section is still incomplete, more information coming here shortly. Please contact if you have questions about how to use this tool on your data.
+
+\subsection{patientSets}
 This section describes which patients should be selected for visualization. If you have many patients, the interface may run slowly, here you can show that you only want to use the first 10,000 patients for an initial exploration.
 
 \begin{verbatim}
@@ -97,7 +186,18 @@ This section describes which patients should be selected for visualization. If y
 3. </patientSets>
 \end{verbatim}
 
-The only important patientSet in this version of the code is the ``train'' set. The start and end fields indicate indices of patients as they are listed in the file visitIDs which is generated by the preprocessing script.
+The only important patientSet in this version of the code are the ``train'' and ``validate'' set. 
+The start and end fields indicate indices of patients as they are listed in the file visitIDs which is generated by the preprocessing script.
+Only patients from the validate set are shown. Patients in the train set are not shown.
+
+\subsection{Language Parsing}
+\label{sec:custom_language_processing}
+Coming soon... more information on customizing the language parser.
+
+
+\subsection{Data Fields}
+\label{sec:custom_settings}
+Use the settings.xml file to customize the interface for your particular dataset. An example settings.xml file is provided along with the interface code in the examples directory. Most of it can be left as is. The most important parts to customize are the {\tt dataTypes} and {\tt displaySettings} sections.
 
 
 \subsubsection{dataTypes}
@@ -124,7 +224,6 @@ For example, here is a sample patient representation in xml format:
 14. </visit>
 \end{verbatim}
 {\bf Important}: Every patient instance must be enclosed in a {\tt visit} tag and must have a unique {\tt index} tag. All other fields are customizable.
-
 Here is a section of settings.xml that could be used for patient records with this schema.
 
 \begin{verbatim}
@@ -139,7 +238,6 @@ Here is a section of settings.xml that could be used for patient records with th
 Line 1 of settings.xml says that there is a type of data called {\bf text}. That it is not hierarchical and that it should not be represented with any special prefix.
 
 Lines 2-4 show where in the patient records it can be found (ie. the MDcomments, ChiefComplaint and TriageAssessment sections). The final representation of the {\bf text} data will be a concatenation of these three fields.
-
 
 \subsubsection{Display Settings}
 \label{sec:display_settings}
@@ -178,66 +276,8 @@ The resulting display is shown in Figure~\ref{patientDisplay}.
 	\label{fig:figure1}
 \end{figure}
 
-\section{Using the anchor interface}
-
-\subsection{Starting the interface}
-
-The following command starts the interface running:
-
-\begin{verbatim}
-$ python gui.py
-\end{verbatim}
-
-\subsection{Concept Selection Menu (Top Left)}
-Allows you to select concepts, and create new ones.
-Some commands:
-\begin{itemize}
-\item New concept button to create a new concept
-\item `-' delete concept
-\item `r' rename concept
-\end{itemize}
-
-\subsection{Anchor Display (Top Middle)}
-Displays the current anchors for the selected topic.
-Commands:
-\begin{itemize}
-\item Enter text into text box and push enter to add a new anchor
-\item `-' delete selected anchor
-\item Anchors can also be added using the anchor suggestion pane (Top Right)
-\end{itemize}
-
-\subsection{Anchor Suggestion Pane (Top Right)}
-Displays suggestions for anchors and allows for navigation and adding of structured anchors.
-Commands:
-\begin{itemize}
-\item ``+'' to add selected anchor suggestion
-\item ``suggest'' pane gives ranked anchor suggestions.
-\item other panes give an interface to navigate structured data types (e.g. code, med, etc)
-\end{itemize}
-
-\subsection{Learn Button}
-
-Learns a model using the currently selected anchors.
-
-\subsection{Detailed Patient Display (Middle Right)}
-Detailed display of the patient selected in Patient List (Bottom Right). Anchors are highlighted red. Structured data types can be clicked to navigate directly to the relevant part of the hierarchy (displayed in Anchor Suggestion Pane).
-
-\subsection{Patient List (Bottom Right)}
-List of patients with summary information. 
-These patients can be filtered using the radio buttons on the left (e.g. view all anchored, view not anchored, etc).
-After the concept has been ``learned'' using the Learn Button, this list will be ranked in order of how highly the patient fits the currently selected concept.
-
-Usage:
-\begin{itemize}
-\item arrow keys to navigate
-\item ``+'' mark patient as a positive example
-\item ``-'' mark patient as a negative example
-\item ``0'' remove patient markings
-\end{itemize}
-
-\subsection{Structured data representations}
-We provide a structured representation for ICD9 codes, but if you have other structured representations that you wish to use (NDC, LOINC, etc), you can provide structure files here. More details on this to come.
-
+\subsection{Structured Data}
+More detail to come on how to include structured data, including ICD9/10 codes, NDC codes, etc...
 
 \section{More Information}
 Contact: Yoni Halpern - halpern@cs.nyu.edu
