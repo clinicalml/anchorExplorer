@@ -55,8 +55,14 @@ However, if you want to test that you can get things up and running with dummy d
 $ python generate_patients.py 1000 > patients.xml
 \end{verbatim}
 
-%A more realistic dataset can be created if you have access to the MIMIC-II clinical notes. 
+A more realistic dataset can be created if you have access to the MIMIC-II clinical notes. Download the flat note files from \url{http://physionet.org/mimic2/flat_files/}.
 
+\begin{verbatim}
+$ python get_mimic_data.py path/to/mimic_files/00 examples/mimic_fields.txt 
+> patients.xml
+\end{verbatim}
+
+This simple example only extracts data from the Notes table. More complicated data representations and structures are possible (see section~\ref{sec:custom_settings}).
 
 \subsection{Settings}
 An example settings file is provided in the examples/ directory. To customize this file for your own data, see section~\ref{sec:custom_settings}.
@@ -93,7 +99,7 @@ $ python gui.py examples/settings.xml
     \caption{\label{fig:first_activation} (Left) Screenshot when the interface is first activated. Panes are annotated in red and each one is explained in detail in Section~\ref{sec:anatomy}. (Right) Viewing a patient in more detail. Random words are inserted for patient text here.}
 \end{figure}
 
-You can explore the data on the patient visit level with the patient summary display (H) and detailed display (F). Selecting a patient in the summary display shows the patient's record in more detail above it. In this simple example, we are only showing three text fields, but more data can be shown here.
+You can explore the data on the patient visit level with the patient summary display\footnote{This display sometimes gets initialized with a height of zero at the bottom of the window and may need to be dragged up in order to be visible.} (H) and detailed display (F). Selecting a patient in the summary display shows the patient's record in more detail above it. In this simple example, we are only showing three text fields, but more data can be shown here.
 
 \subsection{Create a new cohort}
 Pushing the ``new variable'' button (below A) will pop up a dialog to create a new cohort variable. You will be prompted to provide a name.
