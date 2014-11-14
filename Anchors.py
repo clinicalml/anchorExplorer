@@ -4,11 +4,8 @@ import itertools
 import cPickle as pickle
 from Structures import Structure
 
+#TODO: use settings to direct this reference
 vocab,inv_vocab,display_vocab = pickle.load(file('vocab.pk'))
-codelookup = pickle.load(file('codeDict.pk'))
-structures = {}
-for t in ['code']:
-    structures[t] = pickle.load(file(t+'Struct.pk'))
 
 def subsets(l):
     sets = []
