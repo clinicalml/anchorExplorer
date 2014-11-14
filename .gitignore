@@ -1,9 +1,13 @@
+#python files
 *.pyc
-vocab.pk
-visitIDs
-visitShelf
-wordShelf
+*.pk
+*Shelf
+
+#anchors
+anchors/*
+
+#log
 log.txt
-concepts/*
-patientChunk.*
-patients.xml
+
+#settings
+*.xml

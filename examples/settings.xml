@@ -5,7 +5,7 @@
 	</patientSets>
 
 	<vocab src='vocab.pk' shelf='wordShelf'/>
-	<anchors src='anchors.xml' loc='concepts' shelf='anchorShelf'/>
+        <anchors src='examples/anchors.xml' loc='anchors' shelf='anchorShelf'/>
 	<stopwords src='stopwords.pk'/>
 	<patients src='visitIDs' shelf='visitShelf'/>
     <logfile path='log.txt'/>
