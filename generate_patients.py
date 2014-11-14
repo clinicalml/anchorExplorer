@@ -26,7 +26,6 @@ def remove_prefix(w):
 
 words = file('/usr/share/dict/words').read().splitlines()
 random.shuffle(words)
-codeDict=pickle.load(file('codeDict.pk'))
 words = words[:500]
 vocab = set(words)
 
@@ -39,18 +38,6 @@ def randomPatient():
 	MDcomments = pat['MDcomments'] = randomText(50)
 	Age = pat['Age'] = str(np.random.choice(range(20,80)))
 	Sex = pat['Sex'] = np.random.choice(['M', 'F'])[0]
-        Diagnosis = {}
-        code = np.random.choice(codeDict.keys())
-        name = codeDict[code]
-        Diagnosis['D_name'] = name
-        Diagnosis['D_code'] = str(code.replace("code_", ""))
-        for i in xrange(1,np.random.randint(5)):
-            code = np.random.choice(codeDict.keys())
-            name = codeDict[code]
-            Diagnosis['D'+str(i)+'_name'] = name
-            Diagnosis['D'+str(i)+'_code'] = str(code.replace("code_", ""))
-
-        pat['Diagnosis'] = Diagnosis
         return {'visit':pat}
 
 if __name__ == "__main__":
