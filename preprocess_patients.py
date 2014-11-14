@@ -101,7 +101,7 @@ def realPatient(pat):
     global vocab
     
     pat['Text'] = ""
-    for datum in ET.parse('settings.xml').findall('dataTypes/datum'):
+    for datum in ET.parse(settings).findall('dataTypes/datum'):
         for field in datum.findall('field'):
 
             try:
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     sys.stdout.flush()
 
     realtime_prefixes = set()
-    for datum in ET.parse('settings.xml').findall('dataTypes/datum'):
+    for datum in ET.parse(settings).findall('dataTypes/datum'):
         if datum.attrib['realtime'].lower() == "true":
             realtime_prefixes.add(datum.attrib['prefix'])
 
