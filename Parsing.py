@@ -6,6 +6,10 @@ import re
 import string
 import pickle
 
+printable = set(string.printable)
+def sanitize(txt):
+    return filter(lambda c: c in printable, txt)
+
 try:
     stopwords=pickle.load(open('Stopwords.pk','rb'))
 except:
@@ -123,6 +127,7 @@ def parse_text(orig_txt, prefix):
         print 'cannot parse orig text', orig_txt
         sys.exit()
 
+    orig_txt = sanitize(orig_txt)
     orig_txt = re.sub('(['+re.escape(string.punctuation)+'])', ' \g<1> ', orig_txt)
     txt = orig_txt.lower()
     txt = process(txt)
