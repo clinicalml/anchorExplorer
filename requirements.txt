@@ -2,7 +2,4 @@ numpy
 scipy
 scikit-learn==0.15
 networkx
---allow-external Tkinter
---allow-external ttk
 dicttoxml
-
