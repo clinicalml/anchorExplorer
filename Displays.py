@@ -478,7 +478,7 @@ class PatientListDisplay:
             self.patientList.insert("", END, text="", values=(""))
             return
 
-        pat_description = " ".join([ET.fromstring(pat[field]).text for field in self.summaryFields]) + ' : '+ ",".join(pat['anchors'] - set([self.root.currentConcept]))
+        pat_description = " ".join([ET.fromstring(pat[field]).text.strip() for field in self.summaryFields]) + ' : '+ ",".join(pat['anchors'] - set([self.root.currentConcept]))
         try:
             if showPrediction:
                 pat_description = "{:.3f}".format(self.root.backend.getActiveConcept().ranking[pat['index']]) +': '+ pat_description
