@@ -692,7 +692,7 @@ class Backend:
             self.patients[v] = pat
             sparse_X.append(pat['sparse_X'])
     
-        print self.patients.keys()
+        #print self.patients.keys()
         self.sparse_X = sparse.vstack(sparse_X, 'lil')
 
         self.train_patient_ids = visit_ids
