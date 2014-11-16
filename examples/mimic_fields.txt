@@ -3,3 +3,7 @@ NOTEEVENTS:MDcomments
     TEXT:
 ICD9:Diagnosis
     CODE:D_code
+D_PATIENTS:Sex
+    SEX:
+D_PATIENTS:Age
+    DOB:
