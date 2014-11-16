@@ -107,7 +107,7 @@ def realPatient(pat):
             try:
                 content = ET.fromstring(pat[field.attrib['name']])
             except Exception, e:
-                print e
+                #print e
                 tag = field.attrib['name']
                 pat[tag] = "<"+tag+">?</"+tag+">"
                 content = ET.fromstring("<"+tag+"></"+tag+">")
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     visitIDs = file('visitIDs', 'w')
     word_index = defaultdict(list)
     patients = []
-    pool = Pool(20)
+    pool = Pool(4)
 
     #for pat in pool.imap_unordered(realPatient, real_patient_generator(src=xml_src, max_patients=max_patients), chunksize=100):
     for pat in real_patient_generator(src=xml_src, max_patients=max_patients):
@@ -207,7 +207,9 @@ if __name__ == "__main__":
     else:
         vocab,inv_vocab,_, = pickle.load(file('vocab.pk'))
 
-    for pat in pool.imap_unordered(realPatient, real_patient_generator(src=xml_src, max_patients=max_patients), chunksize=100):
+    #for pat in pool.imap_unordered(realPatient, real_patient_generator(src=xml_src, max_patients=max_patients), chunksize=100):
+    for n, pat in enumerate(real_patient_generator(src=xml_src, max_patients=max_patients)):
+        pat = realPatient(pat)
         txt = set(pat['Text'].split('|'))
         m =  sparse.dok_matrix((1,len(vocab)))
         for w in txt:
@@ -215,6 +217,9 @@ if __name__ == "__main__":
                 m[0,inv_vocab[w]] = 1
         pat['sparse_X'] = m
         index = pat['index']
+        if n % 100 == 0:
+            print n
+            sys.stdout.flush()
 
         visitShelf[index] = pat
     
