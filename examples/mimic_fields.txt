@@ -1,5 +1,5 @@
 index_by:SUBJECT_ID
-NOTEEVENTS:MDcomments
+NOTEEVENTS:Note
     TEXT:
 ICD9:Diagnosis
     CODE:D_code
