@@ -39,5 +39,5 @@ getEdges(tree, outfile)
 outfile.close()
 
 print 'cleaning up'
-os.chdir('..')
-subprocess.call('rm -rf icd9', shell=1)
+#os.chdir('..')
+#subprocess.call('rm -rf icd9', shell=1)
