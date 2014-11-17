@@ -20,7 +20,7 @@ def getEdges(t, outfile):
 
 
 print 'cloning github repository sirrice/icd9.git'
-#subprocess.call('git clone https://github.com/sirrice/icd9.git')
+subprocess.call('git clone https://github.com/sirrice/icd9.git')
 
 sys.path.append('icd9')
 from icd9 import ICD9
@@ -40,4 +40,4 @@ outfile.close()
 
 print 'cleaning up'
 os.chdir('..')
-#subprocess.call('rm -rf icd9', shell=1)
+subprocess.call('rm -rf icd9', shell=1)
