@@ -79,6 +79,10 @@ def readAnchors(filename, parent, max_anchors=-1):
 
         anchors[name] = Concept(name, anch, parent=parent, saveloc=saveloc, labels=labels, flags=flags)
 
+    try:
+        os.makedirs(parent.saveloc)
+    except:
+        pass
     for loc in os.listdir(parent.saveloc):
         if '.labels' in loc:
             continue
