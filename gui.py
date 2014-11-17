@@ -205,6 +205,8 @@ if __name__ == "__main__":
     try:
         settings = sys.argv[1]
     except:
-        settings = 'settings.xml'
+        print "usage: python gui.py settings"
+        sys.exit()
+
     myapp = Display(root, settings)
     root.mainloop()
