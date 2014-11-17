@@ -1,0 +1,48 @@
+<settings>
+	<patientSets>
+		<set name='train' start='0' end='500'/>
+		<set name='validate' start='500' end='1000'/>
+	</patientSets>
+
+	<vocab src='vocab.pk' shelf='wordShelf'/>
+        <anchors src='examples/anchors.xml' loc='anchors' shelf='anchorShelf'/>
+	<stopwords src='stopwords.pk'/>
+	<patients src='visitIDs' shelf='visitShelf'/>
+    <logfile path='log.txt'/>
+
+	<dataTypes>
+		<datum type='text' heirarchy='' prefix='' realtime='true'>
+			<field name='Note' path='.'/>
+		</datum>
+
+		<datum type='age' heirarchy='' prefix='age_' realtime='true'>
+			<field name='Age' path='.'/>
+		</datum>
+
+		<datum type='sex' heirarchy='' prefix='sex_' realtime='true'>
+			<field name='Sex' path='.'/>
+		</datum>
+
+                <datum type='code' heirarchy='Structures/codeStruct.pk' prefix='code_' dictionary='Structures/codeDict.pk' realtime='true'>
+                    <field name='Diagnosis' path='D_code' display='D_name'/>
+                </datum>
+	</dataTypes>
+
+	<displaySettings>
+		<patientSummary>
+			<displayFields>
+				<field name='Age'/>
+				<field name='Sex'/>
+			</displayFields>
+		</patientSummary>
+		<detailedDisplay>
+			<displayFields>
+				<field name='Note' path='.'/>
+                                <field name='Diagnosis' path='.'/>
+			</displayFields>
+		</detailedDisplay>
+	</displaySettings>
+</settings>
+
+
+
