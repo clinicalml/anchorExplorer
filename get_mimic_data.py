@@ -5,8 +5,6 @@ import csv
 import os
 
 
-
-
 MAX_ENTRIES = 2
 def collectInfo(datadir, patient, structure):
     print "<visit>"
@@ -27,7 +25,7 @@ def collectInfo(datadir, patient, structure):
                     print "\t\t<"+field[1]+">" +re.sub("\&", "", data) +"</"+field[1]+">"
                     
                 else:
-                    if n == 0:
+                    if n < MAX_ENTRIES:
                         print re.sub("\&", "", data)
         except:
             pass
