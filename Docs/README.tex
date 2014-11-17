@@ -285,6 +285,8 @@ In the following section, we demo this capability in order to view diagnosis cod
 \label{sec:customization demo}
 This demo will walk you through how to include a new data field, in this case ICD9 codes to be viewed in the user interface. It assumes that you have access to MIMIC-II data.
 
+(The commands from this demo can be found in a script run\_mimic.sh which takes a single argument which is the path to the mimic-II flat files). 
+
 As before, we begin by formatting the patient data in a patients.xml file.
 \begin{verbatim}
 $ python get_mimic_data.py path/to/mimic_files/00 examples/mimic_fields.txt 
