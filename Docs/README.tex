@@ -50,19 +50,11 @@ If you have trouble with Tkinter and ttk, try installing the ActiveState communi
 \subsection{Data}
 To start, you need to have patient records in xml format. 
 However, if you want to test that you can get things up and running with dummy data you can use the following command to generate 1000 properly formatted ``random'' patient records and store them in patients.xml.
+A second, more involved example can be found in Section~\ref{sec:custom_settings}.
 
 \begin{verbatim}
 $ python generate_patients.py 1000 > patients.xml
 \end{verbatim}
-
-A more realistic dataset can be created if you have access to the MIMIC-II clinical notes. Download the flat note files from \url{http://physionet.org/mimic2/flat_files/}.
-
-\begin{verbatim}
-$ python get_mimic_data.py path/to/mimic_files/00 examples/mimic_fields.txt 
-> patients.xml
-\end{verbatim}
-
-This simple example only extracts data from the Notes table. More complicated data representations and structures are possible (see section~\ref{sec:custom_settings}).
 
 \subsection{Settings}
 An example settings file is provided in the examples/ directory. To customize this file for your own data, see section~\ref{sec:custom_settings}.
@@ -283,9 +275,11 @@ In the following section, we demo this capability in order to view diagnosis cod
 
 \subsection{Customization demo}
 \label{sec:customization demo}
-This demo will walk you through how to include a new data field, in this case ICD9 codes to be viewed in the user interface. It assumes that you have access to MIMIC-II data.
+This demo will walk you through how to include a new data field, in this case ICD9 codes to be viewed in the user interface. It assumes that you have access to MIMIC-II data.\\
+First download the flat note files from \url{http://physionet.org/mimic2/flat_files/}.
 
-(The commands from this demo can be found in a script run\_mimic.sh which takes a single argument which is the path to the mimic-II flat files). 
+\subsubsection{Preparing data}
+{\bf The commands from this demo can be found in a script mimic\_demo.sh which takes a single argument which is the path to the mimic-II flat files.} 
 
 As before, we begin by formatting the patient data in a patients.xml file.
 \begin{verbatim}
@@ -344,6 +338,29 @@ And run the interface:
 \begin{verbatim}
 $ python gui.py examples/ICD9/settings.xml
 \end{verbatim}
+
+\subsubsection{Using the interface}
+Try to create a new cohort and add an anchor:
+As an illustrative example, we will build the cohort of recent births.\\
+\\
+{\bf Create a new cohort:}\\
+Push the {\bf new variable} button (Pane A in Figure~\ref{fig:figure1}) and enter ``recent birth''.\\
+\\
+{\bf Adding a bad anchor:}\\
+We'll start with a straw-man bad anchor for recent birth. Say we hypothesize that the word ``mother'' is a good anchor for recent birth (this would mean that if mother is mentioned in the note, it is almost certainly a recent birth. This is almost certainly not true, but let's run with it and see what happens.)
+
+Type ``mother'' in the anchor entry box and push enter (Pane D in Figure~\ref{fig:figure1}).\\
+\\
+{\bf Detecting the bad anchor:}\\
+Using the radio buttons on the bottom left, select {\bf view all anchors}. Scrolling through the patients, you will see the anchors highlighted in red. Scrolling through the first few patients should reveal that ``mother'' occurs in many contexts other than recent birth, including family history, contact information etc.\\
+\\
+{\bf Remove the bad anchor and propose a new one:}\\
+We can remove the bad anchor by selecting it and pushing `-'. Now let's add ``neonatology'' as an anchor. This is a better anchor because it is highly specific. Once again, type it into the anchor entry box, push enter. You can scroll through patients again to confirm that this is a better anchor.
+
+
+
+
+
 
 Now next to the suggestions pane there should be an option `code' which will display ICD9 codes in a structured version that can be added to the anchor list with the `+' key. Adding a parent in the hierarchy will add all of the children.
 
